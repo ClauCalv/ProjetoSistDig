@@ -7,6 +7,7 @@ ENTITY displayController IS
 			 exhibitorTag : IN INTEGER RANGE 0 TO 4;
 			 clock 		  : IN STD_LOGIC;
 			 seg7_3 		  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+			 seg7_2 		  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 			 seg7_1 		  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 			 seg7_0 		  : OUT STD_LOGIC_VECTOR(6 DOWNTO 0));
 END displayController;
@@ -14,6 +15,7 @@ END displayController;
 ARCHITECTURE behavioral OF displayController IS
 CONSTANT button  : STD_LOGIC_VECTOR(6 DOWNTO 0) := "0000011"; -- Símbolo b codificado para 7 segmentos
 CONSTANT switch  : STD_LOGIC_VECTOR(6 DOWNTO 0) := "0010010"; -- Símbolo s codificado para 7 segmentos
+CONSTANT blank   : STD_LOGIC_VECTOR(6 DOWNTO 0) := "1111111"; -- Codifiação para o display apagado
 
 	FUNCTION bcd_to_seg7 (bcd : STD_LOGIC_VECTOR(3 DOWNTO 0)) RETURN STD_LOGIC_VECTOR IS -- Conversor de BCD para Display 7 segmentos
 		VARIABLE seg7 : STD_LOGIC_VECTOR(6 DOWNTO 0);
@@ -43,12 +45,13 @@ BEGIN
 	PROCESS (clock)
 	BEGIN
 		IF (RISING_EDGE(clock)) THEN
-			seg7_0 <= int_to_seg7(commandTag);
-			seg7_3 <= int_to_seg7(exhibitorTag);
+			seg7_0 <= int_to_seg7(commandTag); -- Atribuição do comando ao display 0
+			seg7_2 <= blank; -- Atribuição do blank ao display 2 
+			seg7_3 <= int_to_seg7(exhibitorTag); -- Atribuição do jogador ao display 3
 			IF(commandTag < 10) THEN
-				seg7_1 <= button;
+				seg7_1 <= button; -- Atribuição do botão ao display 1
 			ELSIF(commandTag < 14) THEN
-				seg7_1 <= switch;
+				seg7_1 <= switch; -- Atribuição do switch ao display 1
 			END IF;
 		END IF;
 	END PROCESS;
