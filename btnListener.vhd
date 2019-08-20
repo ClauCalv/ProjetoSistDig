@@ -10,14 +10,14 @@ ARCHITECTURE behavioral OF btnListener IS
 BEGIN
 	
 	listener :
-	PROCESS (buttons)
+	PROCESS (buttons) 
 	BEGIN
-		FOR i IN 0 TO 13 LOOP
-			IF (i < 10 AND buttons(i)'EVENT) OR (i >= 10 AND buttons(i)'EVENT AND buttons(i) = '1')
-			THEN buttonTag <= i ;
+		FOR i IN 0 TO 13 LOOP 
+			IF (i < 10 AND buttons(i)'EVENT) OR (i >= 10 AND buttons(i)'EVENT AND buttons(i) = '1') -- Detecção de ação realizada nos switches ou nos botões
+			THEN buttonTag <= i ; -- Atribução da identificação do switch ou botão acionado
 			END IF ;
 		END LOOP ;
-		IF (buttons (13 DOWNTO 10) = "0000")
+		IF (buttons (13 DOWNTO 10) = "0000") -- Caso onde os 4 botões são acionados, situação para iniciar o jogo
 		THEN buttonTag <= 15 ;
 		END IF ;
 	END PROCESS ;
