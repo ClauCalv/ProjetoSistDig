@@ -4,8 +4,8 @@ USE ieee.std_logic_1164.all;
 ENTITY playerController IS
 	PORT ( buttonTag   : IN INTEGER RANGE 0 TO 15 ; --btnListener
 			 commandTag  : IN INTEGER RANGE 0 TO 15 ; --serial_comm
-			 timeClock   : IN STD_LOGIC ; -- clockController
-			 systemClock : IN STD_LOGIC ; -- clockController
+			 clock_50MHz   : IN STD_LOGIC ; -- clockController
+			 clock_2Hzs : IN STD_LOGIC ; -- clockController
 			 quit        : OUT STD_LOGIC ; -- serial_comm
 			 loseLife    : INOUT STD_LOGIC ; -- serial_comm
 			 loseLifeL	 : OUT STD_LOGIC ; -- lightController
@@ -24,7 +24,7 @@ ARCHITECTURE behavioral OF playerController IS
 BEGIN
 	
 	commandListener : -- Recebedor dos comando a serem executados pelo jogador
-	PROCESS (commandTag, resetTag, systemClock)
+	PROCESS (commandTag, resetTag, clock_50MHz)
 	BEGIN
 		IF (resetTag = '1') -- Condição onde o comando é resetado
 		THEN lastCommandTag <= 14 ; -- Set do ultimo comando para um valor em que nada ocorre
@@ -54,13 +54,13 @@ BEGIN
 	END PROCESS ;
 	
 	timeController : -- Controlador da contagem regressiva
-	PROCESS (timeClock, clearTime, systemClock)
+	PROCESS (clock_2Hzs, clearTime, clock_50MHz)
 	BEGIN
 		loseLifeL <= loseLife; -- Set de perda de vida para iluminação
 		llT <= '0'; -- Set de perda de vida por tempo (Não perdeu)
 		IF (clearTime = '1') -- Condição onde a contagem regressiva está ativa
 		THEN timeAmount <= 9 ; -- Atribuição do valor inicial da contagem regressiva
-		ELSIF (RISING_EDGE(timeClock)) -- Detecção de clock de 0.5s (2 Hz)
+		ELSIF (RISING_EDGE(clock_2Hzs)) -- Detecção de clock de 0.5s (2 Hz)
 		THEN
 			IF (timeAmount > 0) -- Condição onde a contagem regressiva ainda não chegou a zero
 			THEN timeAmount <= timeAmount - 1 ; -- Dimininuição do tempo em 1
@@ -72,7 +72,7 @@ BEGIN
 	END PROCESS ;
 
 	buttonController : -- Controlador dos botões e switches
-	PROCESS (buttonTag, systemClock) 
+	PROCESS (buttonTag, clock_50MHz) 
 	BEGIN
 		llQ <= '0' ; -- Set do reset do jogo
 		resetTag <= '0' ; -- Set do reset do comando
@@ -86,7 +86,7 @@ BEGIN
 	END PROCESS ;
 	
 	lifeController : -- Controlador de vidas
-	PROCESS (loseLife, lifeAmount, clearLife, llT, llB, llQ, systemClock)
+	PROCESS (loseLife, lifeAmount, clearLife, llT, llB, llQ, clock_50MHz)
 	BEGIN
 		quit <= '0' ; -- Set de perda do jogo
 		IF (loseLife = '1') -- Condição onde houve perda de vida
