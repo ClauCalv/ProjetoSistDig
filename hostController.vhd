@@ -6,7 +6,7 @@ USE ieee.numeric_std.all;
 ENTITY hostController IS
 	PORT ( commandsConv   : OUT STD_LOGIC_VECTOR (15 DOWNTO 0) ; --host_comm
 			 exhibitorsConv : OUT STD_LOGIC_VECTOR (7 DOWNTO 0) ;	--host_comm
-			 randomClock  : IN STD_LOGIC ) ; -- clockController
+			 clock_200mHz  : IN STD_LOGIC ) ; -- clockController
 END hostController;
 
 ARCHITECTURE behavioral OF hostController IS
@@ -29,7 +29,7 @@ BEGIN
 		VARIABLE randomExibit : INTEGER ;
 		VARIABLE assigned		 : INT_ARRAY (3 DOWNTO 0) ;
 	BEGIN
-		WAIT UNTIL RISING_EDGE(randomClock) ; -- Detecção de clock
+		WAIT UNTIL RISING_EDGE(clock_200mHz) ; -- Detecção de clock
 		FOR j IN 0 TO 3 LOOP
 			assigned(j) := (-1) ; -- Atribuição de um comando para cada player
 		END LOOP ;
