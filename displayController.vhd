@@ -42,9 +42,9 @@ CONSTANT blank   : STD_LOGIC_VECTOR(6 DOWNTO 0) := "1111111"; -- Codifiação pa
 BEGIN
 
 	display:
-	PROCESS (clock)
+	PROCESS (clock_50MHz)
 	BEGIN
-		IF (RISING_EDGE(clock)) THEN
+		IF (RISING_EDGE(clock_50MHz)) THEN
 			seg7_0 <= int_to_seg7(commandTag); -- Atribuição do comando ao display 0
 			seg7_2 <= blank; -- Atribuição do blank ao display 2 
 			seg7_3 <= int_to_seg7(exhibitorTag); -- Atribuição do jogador ao display 3
