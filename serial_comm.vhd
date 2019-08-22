@@ -8,9 +8,9 @@ ENTITY serial_comm IS
 			 comm_toHost   : OUT STD_LOGIC ; -- interface
 			 commandTag    : OUT INTEGER RANGE 0 TO 15 ; -- playerController
 			 quit				: IN STD_LOGIC ; -- playerController
-			 loseLife		: IN STD_LOGIC ; -- playerController
-			 commandTagEx	: OUT STD_LOGIC ; -- displayController
-			 exhibitorTag	: OUT STD_LOGIC ) ; -- displayController
+			 loseLife		: INOUT STD_LOGIC ; -- playerController
+			 commandTagEx	: OUT INTEGER RANGE 0 TO 15 ; -- displayController
+			 exhibitorTag	: OUT INTEGER RANGE 0 TO 3 ) ; -- displayController
 END serial_comm ;
 
 ARCHITECTURE states OF serial_comm IS
@@ -67,7 +67,7 @@ BEGIN
 			IF received (0) = 1 OR indexReceived = 11
 			THEN
 				message <= received ;
-				messageFinished <= '1'
+				messageFinished <= '1' ;
 				indexReceived := 0 ;
 				received := clearReceived ;
 				state_fromHost <= protocolS ;
@@ -76,12 +76,61 @@ BEGIN
 				received (indexReceived) := comm_fromHost ;
 			END IF ;
 		END CASE ;
+	END PROCESS ;
 					
-				
+	readMessage :
+	PROCESS
+	BEGIN
+		WAIT UNTIL RISING_EDGE(clock_20MHz) ;
+		IF messageFinished = '1'
+		THEN
+			IF message(0) = '1'
+			THEN loseLife <= '1' ;
+			ELSE
+				commandTag <= to_integer(unsigned(message(4 DOWNTO 1)));
+				exhibitorTag <= to_integer(unsigned(message(6 DOWNTO 5)));
+				commandTagEx <= to_integer(unsigned(message(10 DOWNTO 7)));
+			END IF
+		ELSE
+			commandTag <= 14
+		END IF ;
+	END PROCESS ;
+	
+	writeHost :
+	PROCESS
+		VARIABLE toWrite : STD_LOGIC_VECTOR (1 DOWNTO 0) ;
+		VARIABLE indexToWrite : INTEGER RANGE 0 TO 4 ;
+		VARIABLE nextProtocol : STD_LOGIC_VECTOR (3 DOWNTO 0) ;
+	BEGIN
+		WAIT UNTIL RISING_EDGE(comm_clkHost) ;
+		CASE state_toHost IS
+		WHEN idleS =>
+			toWrite <= loseLife & quit
+			IF toWrite /= "00"
+			THEN
+				state_toHost <= protocolS;
+				nextProtocol := protocol_init;
+				indexToWrite := 0 ;
+			END IF
+		WHEN protocolS =>
+			IF indexToWrite < 4 
+			THEN
+				comm_toHost <= nextProtocol(indexToWrite) ;
+				indexToWrite := indexToWrite + 1 ;
+			ELSIF nextProtocol = protocol_init
+			THEN comm_toHost <= toWrite(0) ;
+			ELSE
+				comm_toHost <= 0 ;
+				state_toHost <= idleS ;
+			END IF ;
+		WHEN messageS => 
+			comm_toHost <= toWrite(1);
+			nextProtocol <= protocol_end;
+			indexToWrite <= 0;
+		END CASE ;
+	END PROCESS ;
 		
-		
-		
-		
+END ARCHITECTURE ;
 		
 		
 		
