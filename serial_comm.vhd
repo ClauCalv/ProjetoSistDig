@@ -24,9 +24,9 @@ BEGIN
 
 	listenHost :
 	PROCESS
-		VARIABLE received : STD_LOGIC_VECTOR (11 DOWNTO 0) ;
-		VARIABLE indexReceived : INTEGER RANGE 0 TO 11 ;
-		CONSTANT clearReceived : STD_LOGIC_VECTOR (11 DOWNTO 0) := "00000000000"
+		VARIABLE received : STD_LOGIC_VECTOR (10 DOWNTO 0) ;
+		VARIABLE indexReceived : INTEGER RANGE 0 TO 10 ;
+		CONSTANT clearReceived : STD_LOGIC_VECTOR (10 DOWNTO 0) := "00000000000"
 	BEGIN
 		WAIT UNTIL RISING_EDGE(comm_clkHost) ;
 		messageFinished <= '0' ;
@@ -64,7 +64,7 @@ BEGIN
 				received (indexReceived) := comm_fromHost ;
 			END IF ;
 		WHEN messageS => 
-			IF received (0) = 1 OR indexReceived = 11
+			IF received (0) = 1 OR indexReceived = 10
 			THEN
 				message <= received ;
 				messageFinished <= '1' ;
@@ -118,24 +118,18 @@ BEGIN
 				comm_toHost <= nextProtocol(indexToWrite) ;
 				indexToWrite := indexToWrite + 1 ;
 			ELSIF nextProtocol = protocol_init
-			THEN comm_toHost <= toWrite(0) ;
+			THEN 
+				comm_toHost <= toWrite(0) ;
+				state_toHost <= messageS;
 			ELSE
 				comm_toHost <= 0 ;
 				state_toHost <= idleS ;
 			END IF ;
 		WHEN messageS => 
 			comm_toHost <= toWrite(1);
-			nextProtocol <= protocol_end;
-			indexToWrite <= 0;
+			nextProtocol := protocol_end;
+			indexToWrite := 0;
 		END CASE ;
 	END PROCESS ;
 		
 END ARCHITECTURE ;
-		
-		
-		
-		
-		
-	
-	
-	
