@@ -18,7 +18,7 @@ BEGIN
 	conversor : -- Conversor de Inteiros para Vetores
 	FOR i IN 0 TO 3 GENERATE
 		commandsConv(((i*4)+3) DOWNTO (i*4)) <= std_logic_vector(to_unsigned(commands(i),4)) ;
-		exhibitorsConv(((i*2)+3) DOWNTO (i*2)) <= std_logic_vector(to_unsigned(commands(i),2)) ;
+		exhibitorsConv(((i*2)+1) DOWNTO (i*2)) <= std_logic_vector(to_unsigned(commands(i),2)) ;
 	END GENERATE ;
 
 	randomGen :
