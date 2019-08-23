@@ -1,0 +1,43 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.math_real.all;
+USE ieee.numeric_std.all;
+
+ENTITY hostController_sp IS
+	PORT ( commandTag   : OUT INTEGER RANGE 0 TO 15 ; --playerController
+			 isPlayingH   : IN STD_LOGIC ;	-- playerController
+			 clock_200mHz : IN STD_LOGIC ) ; -- clockController
+END hostController_sp;
+
+ARCHITECTURE behavioral OF hostController_sp IS
+	SIGNAL wasPlaying : STD_LOGIC ;
+BEGIN
+	
+	randomGen :
+	PROCESS (isPlayingH, clock_200mHz)
+		VARIABLE seed1, seed2 : POSITIVE;
+		VARIABLE rand         : REAL ;
+		VARIABLE success		 : BOOLEAN ;
+	BEGIN
+		IF isPlayingH = '0' AND wasPlaying = '1'
+		THEN commandTag <= 15
+		ELSIF isPlayingH = '0' AND wasPlaying = '0'
+		THEN commandTag <= 14 ;
+		ELSIF RISING_EDGE(clock_200mHz) ; -- Detecção de clock
+			UNIFORM( seed1, seed2, rand ) ; -- Geração de um valor aleatório
+			commandTag <= integer(floor(rand * 14.0)) ; -- Atribuição do valor aleatório ao comando
+		END IF ;
+		wasPlaying <= isPlayingH
+	END PROCESS ;
+					
+END behavioral ;
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
