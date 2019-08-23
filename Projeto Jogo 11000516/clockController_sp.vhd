@@ -22,12 +22,12 @@ BEGIN
 	PROCESS(clkIN_50MHz)
 	BEGIN
 		IF(RISING_EDGE(clkIN_50MHz)) THEN -- Detecção de clock 50Mhz
-			IF(counter_2Hz = lim_2Hz) THEN -- Condição onde o contador atinge o limite de ciclos
+			IF(counter_0_2Hz = lim_0_2Hz) THEN -- Condição onde o contador atinge o limite de ciclos
 				clock_200mHz <= '1'; -- Alteração do valor do clock de 0.5s
-				counter_2Hz <= 0 ; -- Reset do contador
+				counter_0_2Hz <= 0 ; -- Reset do contador
 			ELSE
 				clock_200mHz <= '0' ;
-				counter_2Hz <= counter_2Hz + 1 ; -- Aumento do contador em 1
+				counter_0_2Hz <= counter_0_2Hz + 1 ; -- Aumento do contador em 1
 			END IF;
 		END IF;
 	END PROCESS;
@@ -36,12 +36,12 @@ BEGIN
 	PROCESS(clkIN_50MHz)
 	BEGIN
 		IF(RISING_EDGE(clkIN_50MHz)) THEN -- Detecção de clock 50Mhz
-			IF(counter_0_2Hz = lim_0_2Hz) THEN -- Condição onde o contador atinge o limite de ciclos
+			IF(counter_2Hz = lim_2Hz) THEN -- Condição onde o contador atinge o limite de ciclos
 				clock_2Hz <= '1'; -- Alteração do valor do clock de 5s
-				counter_0_2Hz <= 0; -- Reset do contador
+				counter_2Hz <= 0; -- Reset do contador
 			ELSE
 				clock_2Hz <= '0';
-				counter_0_2Hz <= counter_0_2Hz + 1; -- Aumento do contador em 1
+				counter_2Hz <= counter_2Hz + 1; -- Aumento do contador em 1
 			END IF;
 		END IF;
 	END PROCESS;

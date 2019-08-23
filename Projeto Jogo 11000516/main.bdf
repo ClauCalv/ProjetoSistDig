@@ -23,7 +23,7 @@ applicable agreement for further details.
 	(input)
 	(rect -328 128 -152 144)
 	(text "INPUT" (rect 133 0 161 10)(font "Arial" (font_size 6)))
-	(text "buttons_ [13..0]" (rect 5 0 83 12)(font "Arial" ))
+	(text "buttons_ [13..0]" (rect 5 0 82 12)(font "Arial" ))
 	(pt 176 8)
 	(drawing
 		(line (pt 92 12)(pt 117 12))
@@ -39,7 +39,7 @@ applicable agreement for further details.
 	(input)
 	(rect -320 224 -152 240)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "clock" (rect 5 0 31 12)(font "Arial" ))
+	(text "clock" (rect 5 0 30 12)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -50,6 +50,7 @@ applicable agreement for further details.
 		(line (pt 109 12)(pt 113 8))
 	)
 	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect -384 224 -328 240))
 )
 (pin
 	(output)
@@ -234,35 +235,6 @@ applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 168 216 408 296)
-	(text "hostController_sp" (rect 5 0 91 12)(font "Arial" ))
-	(text "inst4" (rect 8 64 31 76)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "isPlayingH" (rect 0 0 53 12)(font "Arial" ))
-		(text "isPlayingH" (rect 21 27 74 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "clock_200mHz" (rect 0 0 71 12)(font "Arial" ))
-		(text "clock_200mHz" (rect 21 43 92 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 240 32)
-		(output)
-		(text "commandTag[3..0]" (rect 0 0 92 12)(font "Arial" ))
-		(text "commandTag[3..0]" (rect 142 27 234 39)(font "Arial" ))
-		(line (pt 240 32)(pt 224 32)(line_width 3))
-	)
-	(drawing
-		(rectangle (rect 16 16 224 64))
-	)
-)
-(symbol
 	(rect 424 88 656 200)
 	(text "lightController_sp" (rect 5 0 89 12)(font "Arial" ))
 	(text "inst5" (rect 8 96 31 108)(font "Arial" ))
@@ -337,7 +309,7 @@ applicable agreement for further details.
 (symbol
 	(rect 144 88 392 200)
 	(text "playerController_sp" (rect 5 0 100 12)(font "Arial" ))
-	(text "inst9" (rect 8 96 31 108)(font "Arial" ))
+	(text "inst7" (rect 8 96 31 108)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -362,8 +334,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 80)
 		(input)
-		(text "clock_2Hzs" (rect 0 0 56 12)(font "Arial" ))
-		(text "clock_2Hzs" (rect 21 75 77 87)(font "Arial" ))
+		(text "clock_2Hz" (rect 0 0 50 12)(font "Arial" ))
+		(text "clock_2Hz" (rect 21 75 71 87)(font "Arial" ))
 		(line (pt 0 80)(pt 16 80))
 	)
 	(port
@@ -398,14 +370,45 @@ applicable agreement for further details.
 		(rectangle (rect 16 16 232 96))
 	)
 )
+(symbol
+	(rect 168 216 408 328)
+	(text "hostController_sp" (rect 5 0 91 12)(font "Arial" ))
+	(text "inst8" (rect 8 96 31 108)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "isPlayingH" (rect 0 0 53 12)(font "Arial" ))
+		(text "isPlayingH" (rect 21 27 74 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "clock_200mHz" (rect 0 0 71 12)(font "Arial" ))
+		(text "clock_200mHz" (rect 21 43 92 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "clock_50MHz" (rect 0 0 64 12)(font "Arial" ))
+		(text "clock_50MHz" (rect 21 59 85 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 240 32)
+		(output)
+		(text "commandTag[3..0]" (rect 0 0 92 12)(font "Arial" ))
+		(text "commandTag[3..0]" (rect 142 27 234 39)(font "Arial" ))
+		(line (pt 240 32)(pt 224 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 224 96))
+	)
+)
 (connector
 	(pt 144 152)
 	(pt 104 152)
-)
-(connector
-	(pt 128 312)
-	(pt 128 136)
-	(bus)
 )
 (connector
 	(pt 128 136)
@@ -424,20 +427,6 @@ applicable agreement for further details.
 (connector
 	(pt 392 168)
 	(pt 400 168)
-)
-(connector
-	(pt 392 120)
-	(pt 424 120)
-	(bus)
-)
-(connector
-	(pt 392 136)
-	(pt 424 136)
-	(bus)
-)
-(connector
-	(pt 392 152)
-	(pt 424 152)
 )
 (connector
 	(pt 104 224)
@@ -480,40 +469,8 @@ applicable agreement for further details.
 	(pt 160 208)
 )
 (connector
-	(pt 144 224)
-	(pt 144 296)
-)
-(connector
-	(pt 432 296)
-	(pt 432 264)
-)
-(connector
 	(pt 440 264)
 	(pt 432 264)
-)
-(connector
-	(pt 144 296)
-	(pt 432 296)
-)
-(connector
-	(pt 128 312)
-	(pt 424 312)
-	(bus)
-)
-(connector
-	(pt 424 248)
-	(pt 424 312)
-	(bus)
-)
-(connector
-	(pt 408 248)
-	(pt 424 248)
-	(bus)
-)
-(connector
-	(pt 424 248)
-	(pt 440 248)
-	(bus)
 )
 (connector
 	(pt 680 120)
@@ -574,6 +531,66 @@ applicable agreement for further details.
 	(pt -144 120)
 	(pt -136 120)
 )
+(connector
+	(pt 392 152)
+	(pt 424 152)
+)
+(connector
+	(pt 392 120)
+	(pt 424 120)
+	(bus)
+)
+(connector
+	(pt 392 136)
+	(pt 424 136)
+	(bus)
+)
+(connector
+	(pt 128 136)
+	(pt 128 328)
+	(bus)
+)
+(connector
+	(pt 128 328)
+	(pt 424 328)
+	(bus)
+)
+(connector
+	(pt 424 248)
+	(pt 424 328)
+	(bus)
+)
+(connector
+	(pt 408 248)
+	(pt 424 248)
+	(bus)
+)
+(connector
+	(pt 424 248)
+	(pt 440 248)
+	(bus)
+)
+(connector
+	(pt 432 264)
+	(pt 432 320)
+)
+(connector
+	(pt 144 320)
+	(pt 432 320)
+)
+(connector
+	(pt 168 280)
+	(pt 144 280)
+)
+(connector
+	(pt 144 224)
+	(pt 144 280)
+)
+(connector
+	(pt 144 280)
+	(pt 144 320)
+)
 (junction (pt 104 224))
 (junction (pt 424 248))
 (junction (pt 104 152))
+(junction (pt 144 280))

@@ -19,7 +19,9 @@ END playerController_sp;
 
 ARCHITECTURE behavioral OF playerController_sp IS
 	SIGNAL lastCommandTag  : INTEGER RANGE 0 TO 15 ;
-	SIGNAL clearTime, clearLife, llT, llB, llQ, resetTag, loseLife, isPlaying : STD_LOGIC ;
+	SIGNAL llT, llB, llQ, resetTag, loseLife : STD_LOGIC ;
+	SIGNAL clearTime, clearLife : STD_LOGIC := '1';
+	SIGNAL isPlaying : STD_LOGIC := '0';
 BEGIN
 	
 	commandListener : -- Recebedor dos comando a serem executados pelo jogador
@@ -39,7 +41,8 @@ BEGIN
 				clearLife <= '1' ; -- Reset da contagem regressiva
 				clearTime <= '1' ; -- Reset das vidas
 				lastCommandTag <= 14 ; -- Set do ultimo comando para um valor em que nada ocorre
-			ELSE
+			ELSIF (commandTag = 14)
+			THEN
 				clearTime <= '0' ; -- Set da contagem regressiva
 				clearLife <= '0' ; -- Set das vidas
 			END IF ;
@@ -80,16 +83,19 @@ BEGIN
 		THEN llQ <= '1' ; -- Set do reset do jogo
 		ELSIF (buttonTag = lastCommandTag) -- Condição onde o jogador executa corretamente comando
 		THEN resetTag <= '1' ; -- Set do reset do comando
-		ELSE llB <= '1'; -- Set de perda de vida por comando
+		ELSIF buttonTag /= 14
+		THEN llB <= '1'; -- Set de perda de vida por comando
 		END IF ;
 	END PROCESS ;
 	
 	lifeController : -- Controlador de vidas
 	PROCESS (loseLife, lifeAmount, clearLife, llT, llB, llQ, clock_50MHz)
 	BEGIN
+		isPlayingH <= '0';
 		IF isPlaying = '1'
 		THEN isPlayingH <= '1'; -- Set de perda do jogo
 		END IF ;
+		
 		IF (loseLife = '1') -- Condição onde houve perda de vida
 		THEN
 			loseLife <= '0' ; -- Set de perda de vida
@@ -102,7 +108,7 @@ BEGIN
 		IF (clearLife = '1') -- Condição de reset de vidas
 		THEN lifeAmount <= 7; -- Set da quantidade de vidas inicial
 		ELSIF (lifeAmount = 0 OR llQ = '1') -- Condição onde as vidas se acabaram ou caso o jogo tenha sido reiniciado
-		THEN isPlayingH <= '0' ; -- Set de perda do jogo
+		THEN isPlayingH <= NOT isPlaying ; -- Set de perda do jogo
 		END IF ;
 	END PROCESS ;
 		

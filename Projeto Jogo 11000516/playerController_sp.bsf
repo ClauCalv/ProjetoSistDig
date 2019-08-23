@@ -47,8 +47,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 80)
 		(input)
-		(text "clock_2Hzs" (rect 0 0 46 12)(font "Arial" ))
-		(text "clock_2Hzs" (rect 21 75 67 87)(font "Arial" ))
+		(text "clock_2Hz" (rect 0 0 41 12)(font "Arial" ))
+		(text "clock_2Hz" (rect 21 75 62 87)(font "Arial" ))
 		(line (pt 0 80)(pt 16 80)(line_width 1))
 	)
 	(port
