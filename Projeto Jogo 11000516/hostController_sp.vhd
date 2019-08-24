@@ -22,6 +22,7 @@ BEGIN
 		VARIABLE increment	: INTEGER := 13849;
 		VARIABLE modulus 		: INTEGER := 65536;
 	BEGIN
+	IF(RISING_EDGE(clock_50MHz)) THEN
 		IF isPlayingH /= wasPlaying
 		THEN commandTag <= 15 ;
 		ELSIF isPlayingH = '0' AND wasPlaying = '0'
@@ -33,16 +34,7 @@ BEGIN
 		ELSE commandTag <= 14 ;
 		END IF ;
 		wasPlaying <= isPlayingH ;
+	END IF;
 	END PROCESS ;
 					
 END behavioral ;
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					

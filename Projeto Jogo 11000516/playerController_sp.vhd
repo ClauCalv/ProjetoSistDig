@@ -13,7 +13,7 @@ ENTITY playerController_sp IS
 END playerController_sp;
 
 -- 0 to 9   => switches
--- 10 to 13 => buttons
+-- 10 to 12 => buttons
 -- 14       => no communications
 -- 15       => gameReset
 
